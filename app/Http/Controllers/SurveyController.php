@@ -38,6 +38,7 @@ class SurveyController extends Controller
         if ($notes != null) {
             $surveys = Fizzup_surveys::whereIn('note', $notes)->get();
         }
+        dd($surveys);
         return view('surveyChart', ['surveys' => $surveys, 'selected' => $notes]);
     }
 

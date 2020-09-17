@@ -4,6 +4,7 @@
         <div class="mdl-card__title justify-content-center">
             <h5 class="mdl-card__title-text">Votre avis compte, cliquez sur les étoiles</h5>
         </div>
+        @include('flashMessage.flashMessage')
         <form action="{{route('post_survey')}}" enctype="multipart/form-data" method="POST" id="survey_form">
         {{csrf_field()}}
         <!--NOTE-->
