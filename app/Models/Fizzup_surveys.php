@@ -20,7 +20,7 @@ class Fizzup_surveys extends Model
      */
     public function picture()
     {
-        return $this->hasMany(Fizzup_pictures::class);
+        return $this->hasMany(Fizzup_pictures::class, 'survey_id', 'id');
     }
 
     /**

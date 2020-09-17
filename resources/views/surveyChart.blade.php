@@ -7,7 +7,7 @@
                    class="mdl-js-ripple-effect mdl-button--primary back-button">
                     <span class="fa fa-arrow-circle-left"></span>
                 </a>
-                Liste des avis
+                Revenir au formulaire
             </h5>
             <form action="{{route('listing_survey_by_note')}}" method="POST" id="survey_form">
                 {{csrf_field()}}
@@ -16,9 +16,12 @@
                             <input type="checkbox"
                                    class="filter-note-all mdl-checkbox__input"
                                    id="all"
+                                   @if(sizeof($selected)==5)
+                                   checked
+                                   @endif
                                    name="all"/>
                             <label for="all" class="color_white">Tous</label>
-                            @for ($i = 0; $i <= 5; $i++)
+                            @for ($i = 1; $i <= 5; $i++)
                                 <input type="checkbox"
                                        class="filter-note mdl-checkbox__input"
                                        id="note-{{$i}}"
@@ -56,20 +59,22 @@
                     <tr>
                         <td>{{strtoupper($survey->product_reference)}}</td>
                         <td>
-                            <p class="comment">
-                                {!! $survey->comment !!}
-                            </p>
-                            @forelse($survey->picture as $picture)
-                                <div class="img-thumbnail">
-                                    <img alt="{{$picture->link}}"
-                                         src="{{asset('storage/images/surveys/'.$picture->link)}}"/>
-                                </div>
-                            @empty
-                            @endforelse
-                            <span class="mdl-list__item-primary-content">
+                             <span class="mdl-list__item-primary-content">
                               <span class="fa fa-user"></span>
                             {{$survey->customer->pseudo}}
                             </span>
+                            <p class="comment">
+                                {!! $survey->comment !!}
+                            </p>
+                            @if(!in_array($survey->picture,[[],null]))
+                                @forelse($survey->picture as $picture)
+                                    <div>
+                                        <img alt="{{$picture->link}}" class="image-comment"
+                                             src="{{asset('storage/images/surveys/'.$picture->link)}}"/>
+                                    </div>
+                                @empty
+                                @endforelse
+                            @endif
                         </td>
                         <td>
                             <span class="d-none">{{$survey->note}}</span>
@@ -93,5 +98,10 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="d-none" id="image-render">
+        <button type="button" class="close close-alert" data-dismiss="alert"><span class="fa fa-close fa-2x"></span>
+        </button>
+        <div id="image-card"></div>
     </div>
 @endsection

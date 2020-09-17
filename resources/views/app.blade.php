@@ -26,6 +26,7 @@
     $(document).ready(function () {
         //datatable for listing
         $('table').DataTable({
+            "order": [[3, "desc"]],
             "language": {
                 "decimal": "",
                 "emptyTable": "aucun avis disponible",

@@ -33,12 +33,16 @@ class SurveyController extends Controller
      */
     public function listingSurvey(Request $request)
     {
-        $notes = $request->input('note') ?? [];
+        $notes = [1, 2, 3, 4, 5];
         $surveys = Fizzup_surveys::all();
-        if ($notes != null) {
+        if ($request->method() == 'POST') {
+            $notes = $request->input('note');
+            if ($notes == null) {
+                $notes = [0];
+            }
             $surveys = Fizzup_surveys::whereIn('note', $notes)->get();
         }
-        dd($surveys);
+
         return view('surveyChart', ['surveys' => $surveys, 'selected' => $notes]);
     }
 
@@ -65,10 +69,10 @@ class SurveyController extends Controller
             $customer->save();
         }
 
+        $survey->product_reference = $request->input('product_reference');
         $survey->comment = $request->input('comment');
         $survey->note = $rating == null ? 0 : (int)max($rating);
-        $survey->customer()->associate($customer);
-        $survey->save();
+        $survey->customer()->associate($customer)->save();
         $pictures = $request->file('survey_pictures');
 
         if ($pictures != null && $pictures != []) {
@@ -76,15 +80,15 @@ class SurveyController extends Controller
                 $newFile = $picture->getPathname();
                 $originalName = $picture->getClientOriginalName();
                 $pictureLink = str_replace(' ', '', $request->input('reference')) . random_int(0, 1000) . $originalName;
-
                 $surveyPicture = new Fizzup_pictures();
                 trim(str_replace(["!", "$", "*", " ", ".", "\\", "/", "'", "~"], "", $pictureLink));
                 $surveyPicture->link = $pictureLink;
                 copy($newFile, $this->pictureFolder . $pictureLink);
                 $surveyPicture->survey()->associate($survey);
-                $surveyPicture->save();
+                $survey->picture()->save($surveyPicture);
             }
         }
+
         return redirect()->route('form_survey')->with('message', 'Votre avis a bien été enregistré! A bientôt');
     }
 }

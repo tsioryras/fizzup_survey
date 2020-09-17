@@ -93,3 +93,13 @@ $("#images-preview").on('click', 'span.delete-image', function () {
     $(this).parent().remove();
 });
 /*************end uploading images***************/
+
+$('.image-comment').on('click', function () {
+    console.log($(this).attr('src'));
+    $('#image-card').html('<img src="' + $(this).attr('src') + '" alt="image" id="show-image">');
+    $('#image-render').removeClass('d-none');
+});
+
+$("button[data-dismiss=alert]").on('click', function () {
+    $('#image-render').addClass('d-none');
+});

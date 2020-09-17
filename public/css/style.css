@@ -95,3 +95,23 @@ a:hover, button:hover {
 .date-original {
     display: none;
 }
+
+.image-comment {
+    height: 50px;
+    display: inline;
+    cursor: pointer;
+}
+
+#image-card {
+    background: #e9ecef;
+}
+
+#image-render {
+    position: absolute;
+    z-index: 10;
+    top: 50px;
+}
+
+.alert {
+    border-radius: 0;
+}
