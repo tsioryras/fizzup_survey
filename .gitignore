@@ -2,7 +2,6 @@
 .idea/*
 /node_modules
 /public/hot
-/public/storage/images/surveys
 /storage/*.key
 /vendor
 .env
